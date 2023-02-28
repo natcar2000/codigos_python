@@ -1,0 +1,87 @@
+#Lado python#
+
+import eel
+import os
+
+
+ips = []
+@eel.expose
+def enviaEndereco(ip_add):
+    comando = f"nmap -sP {ip_add}/24"
+    mapeamento = os.popen(comando).readlines()
+    for linha in mapeamento:
+        if "scan report" in linha:
+            divisao = linha.split(" ")
+            elemento = divisao[4]
+            ips.append(elemento)
+    return ips
+
+eel.init("C:\\Users\\Humil\\PycharmProjects\\interfaceGrafica")
+eel.start("hacker.html", size=(600, 280), options={"port":0}, suppress_error=True)
+
+#Lado HTML#
+
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mapeamento de rede</title>
+    <link rel="stylesheet" href="https://cdn.korzh.com/metroui/v4.5.1/css/metro-all.min.css">
+    <script type="text/javascript" src="/eel.js"></script>
+  </head>
+  <body>
+      <aside class="sidebar pos-absolute z-2"
+             data-role="sidebar"
+             data-toggle="#sidebar-toggle-4"
+             id="sb4"
+             data-shift=".shifted-content-2"
+             data-static-shift=".shifted-content-2"
+             data-static="md">
+
+            <ul class="sidebar-menu">
+                <li><a id="link"><span class="mif-home icon"></span>Principal</a></li>
+                <li><a id="link1" href="#resultado"><span class="mif-map icon"></span>Resultado</a></li>
+            </ul>
+      </aside>
+      <div class="shifted-content-2 h-100 p-ab">
+            <div class="appbar pos-absolute bg-red z-1" data-role="appbar">
+                <button class="app-bar-item c-pointer" id="sidebar-toggle-4">
+                    <span class="mif-menu fg-white"></span>
+                </button>
+            </div>
+
+            <div id="d" class="h-100 p-4">
+                <p class="h1">Mapeamento de rede</p>
+                <input id="endereco_ip" type="text" data-role="input" data-prepend="Endereço da rede: ">
+                <hr>
+                <button class="button shadowed" onclick="enviaEndereco()">Mapear</button>
+            </div>
+
+            <ul id="conteudo">
+
+            </ul>           
+      </div>
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+      <script src="https://cdn.korzh.com/metroui/v4.5.1/js/metro.min.js"></script>
+      <script>
+           async function principal(){
+                var entrada = $("#endereco_ip").val();
+                var dados = await eel.principal(ip_add=entrada)();
+                for (ip of dados){
+                    var resposta = $("#conteudo").append(`<li>${ip}</li>`);
+                    console.log(resposta);
+                }
+           }
+
+           $(document).ready(function(){
+                $("#link1").click(function(){
+                    $("#d").hide();
+                    $("#conteudo").show();
+                })
+                $("#link").click(function(){
+                    $("#d").show();
+                })
+           })
+      </script>
+  </body>
+</html>
