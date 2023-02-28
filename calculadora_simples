@@ -1,0 +1,97 @@
+from tkinter import *
+
+
+def reconhece_botoes(valor):
+    dados = entrada.get()
+    entrada.delete(0,END)
+    entrada.insert(END, str(dados) + str(valor))
+
+def limpar():
+    entrada.delete(0,END)
+
+def soma():
+    numero1 = entrada.get()
+    global operacao
+    operacao = "soma"
+    global prim_num
+    prim_num = float(numero1)
+    entrada.delete(0, END)
+
+def sub():
+    numero1 = entrada.get()
+    global operacao
+    operacao = "subtracao"
+    global prim_num
+    prim_num = float(numero1)
+    entrada.delete(0, END)
+
+def multip():
+    numero1 = entrada.get()
+    global operacao
+    operacao = "multiplicacao"
+    global prim_num
+    prim_num = float(numero1)
+    entrada.delete(0, END)
+
+def div():
+    numero1 = entrada.get()
+    global operacao
+    operacao = "divisao"
+    global prim_num
+    prim_num = float(numero1)
+    entrada.delete(0, END)
+
+def calcular():
+    resultado = entrada.get()
+    entrada.delete(0, END)
+    if operacao == "soma":
+        entrada.insert(0, prim_num + float(resultado))
+    elif operacao == "subtracao":
+        entrada.insert(0, prim_num - float(resultado))
+    elif operacao == "multiplicacao":
+        entrada.insert(0, prim_num * float(resultado))
+    elif operacao == "divisao":
+        entrada.insert(0, prim_num / float(resultado))
+
+calc = Tk()
+calc.title("Calculadora")
+calc.geometry("320x140")
+calc.resizable(False, False)
+
+entrada = Entry(calc, width=60)
+entrada.place(x=0, y=0)
+
+botao0 = Button(calc, text="0", width=10, command=lambda: reconhece_botoes(0))
+botao0.place(x=0, y=20)
+botao1 = Button(calc, text="1", width=10, command=lambda: reconhece_botoes(1))
+botao1.place(x=80, y=20)
+botao2 = Button(calc, text="2", width=10, command=lambda: reconhece_botoes(2))
+botao2.place(x=160, y=20)
+botao_soma = Button(calc, text="+", width=10, command=soma)
+botao_soma.place(x=240, y=20)
+botao3 = Button(calc, text="3", width=10, command=lambda: reconhece_botoes(3))
+botao3.place(x=0, y=50)
+botao4 = Button(calc, text="4", width=10, command=lambda: reconhece_botoes(4))
+botao4.place(x=80, y=50)
+botao5 = Button(calc, text="5", width=10, command=lambda: reconhece_botoes(5))
+botao5.place(x=160, y=50)
+botao_subtracao = Button(calc, text="-", width=10, command=sub)
+botao_subtracao.place(x=240, y=50)
+botao6 = Button(calc, text="6", width=10, command=lambda: reconhece_botoes(6))
+botao6.place(x=0, y=80)
+botao7 = Button(calc, text="7", width=10, command=lambda: reconhece_botoes(7))
+botao7.place(x=80, y=80)
+botao8 = Button(calc, text="8", width=10, command=lambda: reconhece_botoes(8))
+botao8.place(x=160, y=80)
+botao_mult = Button(calc, text="*", width=10, command=multip)
+botao_mult.place(x=240, y=80)
+botao9 = Button(calc, text="9", width=10, command=lambda: reconhece_botoes(9))
+botao9.place(x=0, y=110)
+botao_clear = Button(calc, text="Limpar", width=10, command=limpar)
+botao_clear.place(x=80, y=110)
+botao_igual = Button(calc, text="=", width=10, command=calcular)
+botao_igual.place(x=160, y=110)
+botao_divisao = Button(calc, text="/", width=10, command=div)
+botao_divisao.place(x=240, y=110)
+
+calc.mainloop()
